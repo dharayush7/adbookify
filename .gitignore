@@ -8,6 +8,11 @@
 # testing
 /coverage
 
+# IDE and Json
+/jsconfig.json
+/package-lock.json
+/.vscode
+
 # production
 /build
 
