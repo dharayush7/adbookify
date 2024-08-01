@@ -11,7 +11,7 @@ import ListedPage from "./pages/Listed";
 import ADNav from "./components/Navbar";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
+
 
 function App() {
   return (

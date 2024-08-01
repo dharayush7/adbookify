@@ -12,6 +12,7 @@
 /jsconfig.json
 /package-lock.json
 /.vscode
+/yarn.lock
 
 # production
 /build

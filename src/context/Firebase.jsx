@@ -23,12 +23,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 const FirebaseContext = createContext(null);
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA_mFpsX3aFXtDoe6Id6NuytkjK9xEBK4E",
-  authDomain: "adbookify.firebaseapp.com",
-  projectId: "adbookify",
-  storageBucket: "adbookify.appspot.com",
-  messagingSenderId: "1046855240760",
-  appId: "1:1046855240760:web:312c5844197e266638eacd",
+    // paste firebase Config
 };
 
 export const useFirebase = () => {

@@ -1,70 +1,177 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# AD Bookofy
+## Description
+Welcome to the Book Listing Website! This project is a web application where users can browse, buy, and list books. The frontend is built using React.js, and it integrates with Firebase for backend services, including Firestore, Firebase Storage, and Firebase Authentication.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Browse Books**: View a list of available books with details such as title, author, and price.
 
-### `npm start`
+- **Buy Books**: Purchase books directly from the website.
+  
+- **List Books**: Users can list their own books for sale.
+- **Authentication**: Secure user authentication with Firebase Authentication.
+- **Database**: Use Firestore for storing and retrieving book data.
+- **Storage**: Use Firebase Storage for storing book cover images.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+## Technologies Used
+- **React.js**: JavaScript library for building user interfaces.
+- **Firebase**: Provides a suite of tools for building web apps.
+  - **Firestore**: NoSQL cloud database for storing book and user data.
+  - **Firebase Storage**: For storing and serving book cover images.
+  - **Firebase Authentication**: For user login and registration.
+## Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `npm run build`
+- Node.js (version 18 or higher)
+- npm or yarn or pnpm
+- A Kinda free account and configuration
+- A free neo4j instanse
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Setup
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### 1. Clone the Repository
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+git clone https://github.com/dharayush7/adbookify.git
+```
 
-### `npm run eject`
+# Installation
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+#### 1. Installing dependencies:
+```bash
+cd adbookify
+npm install
+# or
+yarn
+# or
+pnpm i
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Firebase Setup
+Create a free account of Firebase.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### 2. Create project:
+Create a new project in firebase. Add web app in this app.
 
-## Learn More
+#### 3. Utlity Setup:
+don't copy firebase config now. Go to build section and go firestore database. Activate this utlity.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### 4. Rules configure:
+- Go to rules section in firestore database.
+- The default rule look like this.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+rules_version = '2';
 
-### Code Splitting
+service cloud.firestore {
+  match /databases/{database}/documents {
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+    // This rule allows anyone with your Firestore database reference to view, edit,
+    // and delete all data in your Firestore database. It is useful for getting
+    // started, but it is configured to expire after 30 days because it
+    // leaves your app open to attackers. At that time, all client
+    // requests to your Firestore database will be denied.
+    //
+    // Make sure to write security rules for your app before that time, or else
+    // all client requests to your Firestore database will be denied until you Update
+    // your rules
+    match /{document=**} {
+      allow read, write: if request.time < timestamp.date(2024, 8, 2);
+    }
+  }
+}
+```
+- Now the change the last line ```allow read, write: if request.time < timestamp.date(2024, 8, 2);``` to ```allow read, write: if true;```
 
-### Analyzing the Bundle Size
+- Now the rule look like this
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+``` 
+rules_version = '2';
 
-### Making a Progressive Web App
+service cloud.firestore {
+  match /databases/{database}/documents {
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+    // This rule allows anyone with your Firestore database reference to view, edit,
+    // and delete all data in your Firestore database. It is useful for getting
+    // started, but it is configured to expire after 30 days because it
+    // leaves your app open to attackers. At that time, all client
+    // requests to your Firestore database will be denied.
+    //
+    // Make sure to write security rules for your app before that time, or else
+    // all client requests to your Firestore database will be denied until you Update
+    // your rules
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
+```
 
-### Advanced Configuration
+#### 5. Copy Cofigurarion:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- Go to project overview settings icon and click project settings.
+- Under the section "your app" the default app was selected.
+- Now copy "firebaseConfig" . 
+- The firebaseConfig look like this
+```
+const firebaseConfig = {
+  apiKey: // api id,
+  authDomain:  // auth domain,
+  databaseURL:  // database url,
+  projectId: // project ID,
+  storageBucket: // strorage Bucket,
+  messagingSenderId: // Messaging sender id,
+  appId: // app id 
+};
+```
 
-### Deployment
+- Now to ```adbookify/src/context/Firebase.jsx``` paste it in this...
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```
+const firebaseConfig = {
+  // Paste hare firebase config
+};
+```
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## Initialization
+
+Go to AD-Tinder/
+
+### Start server in devolopment mode:
+
+Run this command to start the server:
+
+using npm:
+```bash
+npm start
+```
+using yarn:
+```bash
+yarn start
+```
+
+using pnpm:
+
+```bash
+pnpm run start
+```
+
+## Usage
+
+- Go to [localhost:3000](localhost:3000) 
+## 🔗 Links
+[portfolio](https://www.ayushdhar.com/)
+
+
+
+## License
+
+[MIT]
+
